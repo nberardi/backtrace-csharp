@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Backtrace.Tests")]
 namespace Backtrace.Interfaces
@@ -10,32 +11,12 @@ namespace Backtrace.Interfaces
     /// Backtrace API sender interface
     /// </summary>
     /// <typeparam name="T">Attribute type</typeparam>
-    public interface IBacktraceApi<T>
+    public interface IBacktraceApi<T> : IDisposable
     {
         /// <summary>
         /// Send a Backtrace report to Backtrace API
         /// </summary>
         /// <param name="data">Library diagnostic data</param>
-        void Send(BacktraceData<T> data);
-
-        /// <summary>
-        /// Set an event executed when received bad request, unauthorize request or other information from server
-        /// </summary>
-        Action<Exception> OnServerError { get; set; }
-
-        /// <summary>
-        /// Set an event executed when server return information after sending data to API
-        /// </summary>
-        Action<BacktraceServerResponse> OnServerResponse { get; set; }
-
-        /// <summary>
-        /// Use asynchronous method to send report to server
-        /// </summary>
-        bool AsynchronousRequest { get; set; }
-
-        /// <summary>
-        /// Set custom request method to prepare HTTP request to Backtrace API
-        /// </summary>
-        Action<string, string, byte[]> RequestHandler { get; set; }
+        Task<BacktraceServerResponse> Send(BacktraceData<T> data);
     }
 }

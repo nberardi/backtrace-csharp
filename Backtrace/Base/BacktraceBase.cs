@@ -13,67 +13,6 @@ namespace Backtrace.Base
     /// </summary>
     public class BacktraceBase<T>
     {
-
-        /// <summary>
-        /// Custom request handler for HTTP call to server
-        /// </summary>
-        public Action<string, string, byte[]> RequestHandler
-        {
-            get
-            {
-                return _backtraceApi.RequestHandler;
-            }
-            set
-            {
-                _backtraceApi.RequestHandler = value;
-            }
-        }
-
-        /// <summary>
-        /// Use asynchronous method to send report to server
-        /// </summary>
-        public bool AsyncRequest
-        {
-            get
-            {
-                return _backtraceApi.AsynchronousRequest;
-            }
-            set
-            {
-                _backtraceApi.AsynchronousRequest = value;
-            }
-        }
-
-        /// <summary>
-        /// Set an event executed when received bad request, unauthorize request or other information from server
-        /// </summary>
-        public Action<Exception> OnServerError
-        {
-            get
-            {
-                return _backtraceApi.OnServerError;
-            }
-            set
-            {
-                _backtraceApi.OnServerError = value;
-            }
-        }
-
-        /// <summary>
-        /// Set an event executed when Backtrace API return information about send report
-        /// </summary>
-        public Action<BacktraceServerResponse> OnServerResponse
-        {
-            get
-            {
-                return _backtraceApi.OnServerResponse;
-            }
-            set
-            {
-                _backtraceApi.OnServerResponse = value;
-            }
-        }
-
         /// <summary>
         /// Get or set minidump type
         /// </summary>
@@ -190,6 +129,13 @@ namespace Backtrace.Base
         public virtual void HandleApplicationException()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        public virtual void HandleUnobservedTaskException() 
+        {
+            throw new NotImplementedException();
+            // TODO:
+            //System.Threading.Tasks.TaskScheduler.UnobservedTaskException += 
         }
 
         /// <summary>
